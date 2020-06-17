@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Segment,
-  Loader,
-  Dimmer,
-} from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 import { Actions, userStatuses } from '../constants'
 
 const LoginForm = ({ dispatch, userStatus }) => {
@@ -40,18 +32,15 @@ const LoginForm = ({ dispatch, userStatus }) => {
               iconPosition="left"
               placeholder="Nickname"
             />
-
-            {!isLoading ? (
-              <Button color="teal" fluid size="large">
-                Enter Chat Room
-              </Button>
-            ) : (
-              <Segment>
-                <Dimmer active inverted>
-                  <Loader />
-                </Dimmer>
-              </Segment>
-            )}
+            <Button
+              color="teal"
+              fluid
+              size="large"
+              loading={isLoading}
+              disabled={isLoading}
+            >
+              Enter Chat Room
+            </Button>
           </Segment>
         </Form>
       </Grid.Column>
