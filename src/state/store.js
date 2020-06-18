@@ -3,7 +3,7 @@ import { Actions, userStatuses } from '../constants'
 export const initialState = {
   nickName: null,
   avatar: null,
-  userStatus: userStatuses.loggedIn, // TODO set to loggedOut
+  userStatus: userStatuses.loggedOut, // TODO set to loggedOut
   error: '',
   messages: [], // message object: {id, nickname, text, ?timestamp }
   connectedUsers: [], // user object {id, nickname}
@@ -17,7 +17,7 @@ export const reducer = (state = initialState, action) => {
       return { ...state, userStatus: userStatuses.loading }
 
     case Actions.loginSuccess:
-      return { ...state, userStatus: userStatuses.loggedIn } // TODO get connected users and last 10 messages and webscocket connection
+      return { ...state, userStatus: userStatuses.loggedIn, ...payload } // TODO get connected users and last 10 messages and webscocket connection
 
     case Actions.loginFail:
       return { ...state, userStatus: userStatuses.loggedOut } // TODO get error

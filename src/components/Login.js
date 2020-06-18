@@ -1,9 +1,10 @@
 import React from 'react'
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 import { Actions, userStatuses } from '../constants'
+import { loginToChat } from '../util/api'
 
 const LoginForm = ({ dispatch, userStatus }) => {
-  const [nickName, setNickname] = React.useState()
+  const [nickName, setNickname] = React.useState('')
 
   const handleChange = (e, { value }) => {
     dispatch({ type: Actions.enterNickname, payload: value })
@@ -12,6 +13,14 @@ const LoginForm = ({ dispatch, userStatus }) => {
 
   const handleSubmit = () => {
     dispatch({ type: Actions.startLogin })
+    ;(async function () {
+      try {
+        const response = await loginToChat(nickName)
+        dispatch({ type: Actions.loginSuccess, payload: response })
+      } catch (err) {
+        dispatch({ type: Actions.loginFail, payload: err })
+      }
+    })()
   }
 
   const isLoading = userStatus === userStatuses.loading
