@@ -1,3 +1,5 @@
-.App {
-  text-align: center;
+.app {
+  &__header.ui.header.header {
+    margin-top: 3em;
+  }
 }

@@ -4,6 +4,8 @@ export const Actions = {
   loginFail: 'LOGIN_FAIL',
 
   enterNickname: 'ENTER_NICKNAME',
+
+  postMessage: 'POST_MESSAGE',
 }
 
 export const userStatuses = {

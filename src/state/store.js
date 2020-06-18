@@ -3,9 +3,10 @@ import { Actions, userStatuses } from '../constants'
 export const initialState = {
   nickName: null,
   avatar: null,
-  userStatus: userStatuses.loggedOut,
+  userStatus: userStatuses.loggedIn, // TODO set to loggedOut
   error: '',
-  messages: [], // message object: {writerNickname, text, ?timestamp }
+  messages: [], // message object: {id, nickname, text, ?timestamp }
+  connectedUsers: [], // user object {id, nickname}
 }
 
 export const reducer = (state = initialState, action) => {
@@ -23,6 +24,10 @@ export const reducer = (state = initialState, action) => {
 
     case Actions.enterNickname:
       return { ...state, nickName: payload }
+
+    case Actions.postMessage:
+      return { ...state }
+
     default:
       throw new Error()
   }
