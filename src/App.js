@@ -10,7 +10,7 @@ import ChatRoom from './components/ChatRoom'
 
 const App = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
-  const { userStatus, messages, connectedUsers } = state
+  const { userStatus, messages, connectedUsers, userId, nickname } = state
 
   return (
     <div className="app">
@@ -20,11 +20,16 @@ const App = () => {
       {userStatus === userStatuses.loggedOut ? (
         <LoginForm dispatch={dispatch} userStatus={state.userStatus} />
       ) : (
-        <ChatRoom
-          dispatch={dispatch}
-          messages={messages}
-          users={connectedUsers}
-        />
+        userId &&
+        nickname && (
+          <ChatRoom
+            dispatch={dispatch}
+            nickname={nickname}
+            messages={messages}
+            users={connectedUsers}
+            userId={userId}
+          />
+        )
       )}
     </div>
   )

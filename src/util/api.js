@@ -1,3 +1,5 @@
+import io from 'socket.io-client'
+
 const loginToChat = async (nickname) => {
   try {
     const response = await fetch('http://localhost:5000/login', {
@@ -7,7 +9,7 @@ const loginToChat = async (nickname) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({nickname}),
+      body: JSON.stringify({ nickname }),
     })
 
     return response.json()
@@ -17,4 +19,8 @@ const loginToChat = async (nickname) => {
   return false
 }
 
-export { loginToChat }
+const connectToChatWebsocket = (userId) => {
+  return io('http://localhost:5000', { query: `userId=${userId}` })
+}
+
+export { loginToChat, connectToChatWebsocket }

@@ -5,7 +5,8 @@ export const Actions = {
 
   enterNickname: 'ENTER_NICKNAME',
 
-  postMessage: 'POST_MESSAGE',
+  newMessage: 'NEW_MESSAGE',
+  userUpdate: 'USER_UPDATE',
 }
 
 export const userStatuses = {

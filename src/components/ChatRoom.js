@@ -10,20 +10,40 @@ import {
   List,
   Image,
 } from 'semantic-ui-react'
+import { connectToChatWebsocket } from '../util/api'
 import { Actions } from '../constants'
+let socket = null
 
-const ChatRoom = ({ messages = [], users = [], dispatch }) => {
+const ChatRoom = ({
+  messages = [],
+  users = [],
+  dispatch,
+  userId,
+  nickname,
+}) => {
   const [message, setMessage] = React.useState('')
   const hasMessages = messages.length > 0
 
+  React.useEffect(() => {
+    socket = connectToChatWebsocket(userId)
+    socket.emit('new user')
+    socket.on('chat message', function (msg) {
+      dispatch({ type: Actions.newMessage, payload: msg })
+    })
+    socket.on('user update', function (connectedUsers) {
+      dispatch({ type: Actions.userUpdate, payload: connectedUsers })
+    })
+  }, [])
+
   const handleSubmit = () => {
-    dispatch({ type: Actions.postMessage, payload: message })
+    setMessage('')
+    socket.emit('chat message', { text: message, userId, nickname })
   }
 
   const handleChange = (e, { value }) => {
     setMessage(value)
   }
-
+  // TODO on 'Connected Users and chat give current user different styling
   return (
     <Container>
       <Grid centered columns={2}>

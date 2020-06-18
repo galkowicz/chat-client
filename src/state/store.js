@@ -2,7 +2,7 @@ import { Actions, userStatuses } from '../constants'
 
 export const initialState = {
   nickName: null,
-  avatar: null,
+  userId: null,
   userStatus: userStatuses.loggedOut, // TODO set to loggedOut
   error: '',
   messages: [], // message object: {id, nickname, text, ?timestamp }
@@ -25,8 +25,11 @@ export const reducer = (state = initialState, action) => {
     case Actions.enterNickname:
       return { ...state, nickName: payload }
 
-    case Actions.postMessage:
-      return { ...state }
+    case Actions.newMessage:
+      return { ...state, messages: [...state.messages, { ...payload }] }
+
+    case Actions.userUpdate:
+      return { ...state, connectedUsers: [...payload] }
 
     default:
       throw new Error()
