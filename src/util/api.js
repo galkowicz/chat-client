@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 
-const apiUrl = process.env.API_HOSTNAME || 'http://localhost:5000'
+const apiUrl = process.env.REACT_APP_API_HOSTNAME || 'http://localhost:5000'
 
 const loginToChat = async (nickname) => {
   try {
