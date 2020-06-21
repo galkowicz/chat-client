@@ -1,8 +1,10 @@
 import io from 'socket.io-client'
 
+const apiUrl = process.env.API_HOSTNAME || 'http://localhost:5000'
+
 const loginToChat = async (nickname) => {
   try {
-    const response = await fetch('http://localhost:5000/login', {
+    const response = await fetch(`${apiUrl}/login`, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -20,7 +22,9 @@ const loginToChat = async (nickname) => {
 }
 
 const connectToChatWebsocket = (userId) => {
-  return io('http://localhost:5000', { query: `userId=${userId}` })
+  return io(apiUrl, {
+    query: `userId=${userId}`,
+  })
 }
 
 export { loginToChat, connectToChatWebsocket }
