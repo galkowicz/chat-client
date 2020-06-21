@@ -1,0 +1,11 @@
+.item.active {
+  .content {
+    text-decoration: underline;
+  }
+}
+
+.comment.self {
+  .content .author {
+    text-decoration: underline;
+  }
+}

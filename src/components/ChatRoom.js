@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react'
 import { connectToChatWebsocket } from '../util/api'
 import { Actions } from '../constants'
+import './ChatRoom.scss'
 let socket = null
 
 const ChatRoom = ({
@@ -50,7 +51,7 @@ const ChatRoom = ({
       handleSubmit()
     }
   }
-  // TODO on 'Connected Users and chat give current user different styling
+
   return (
     <Container>
       <Grid centered columns={2}>
@@ -62,7 +63,7 @@ const ChatRoom = ({
               </List.Item>
               {users.map((user) => {
                 return (
-                  <List.Item key={user.id}>
+                  <List.Item key={user.id} active={user.id === userId}>
                     <Image
                       avatar
                       src={`https://api.adorable.io/avatars/91/${user.nickname}@adorable.io.png`}
@@ -85,7 +86,10 @@ const ChatRoom = ({
             {hasMessages &&
               messages.map((msg) => {
                 return (
-                  <Comment key={msg.id}>
+                  <Comment
+                    key={msg.id}
+                    className={msg.userId === userId ? 'self' : ''}
+                  >
                     <Comment.Avatar
                       src={`https://api.adorable.io/avatars/91/${msg.nickname}@adorable.io.png`}
                     />
