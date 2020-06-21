@@ -43,6 +43,13 @@ const ChatRoom = ({
   const handleChange = (e, { value }) => {
     setMessage(value)
   }
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault()
+      handleSubmit()
+    }
+  }
   // TODO on 'Connected Users and chat give current user different styling
   return (
     <Container>
@@ -91,7 +98,11 @@ const ChatRoom = ({
               })}
 
             <Form onSubmit={handleSubmit}>
-              <Form.TextArea value={message} onChange={handleChange} />
+              <Form.TextArea
+                value={message}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
               <Button
                 content="Post message"
                 labelPosition="left"
