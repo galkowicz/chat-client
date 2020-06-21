@@ -12,6 +12,9 @@ const LoginForm = ({ dispatch, userStatus }) => {
   }
 
   const handleSubmit = () => {
+    if (nickName === '') {
+      return
+    }
     dispatch({ type: Actions.startLogin })
     ;(async function () {
       try {

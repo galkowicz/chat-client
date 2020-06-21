@@ -9,6 +9,7 @@ import {
   Segment,
   List,
   Image,
+  Ref,
 } from 'semantic-ui-react'
 import { connectToChatWebsocket } from '../util/api'
 import { Actions } from '../constants'
@@ -23,6 +24,7 @@ const ChatRoom = ({
   nickname,
 }) => {
   const [message, setMessage] = React.useState('')
+  const commentsList = React.useRef(null)
   const hasMessages = messages.length > 0
 
   React.useEffect(() => {
@@ -36,7 +38,14 @@ const ChatRoom = ({
     })
   }, [])
 
+  React.useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
   const handleSubmit = () => {
+    if (message === '') {
+      return
+    }
     setMessage('')
     socket.emit('chat message', { text: message, userId, nickname })
   }
@@ -49,6 +58,12 @@ const ChatRoom = ({
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault()
       handleSubmit()
+    }
+  }
+
+  const scrollToBottom = () => {
+    if (commentsList.current) {
+      commentsList.current.scrollTop = commentsList.current.scrollHeight
     }
   }
 
@@ -78,43 +93,44 @@ const ChatRoom = ({
           </Segment>
         </Grid.Column>
         <Grid.Column mobile={14} computer={8}>
-          <Comment.Group>
-            <Header as="h3" dividing>
-              Messages
-            </Header>
+          <Ref innerRef={commentsList}>
+            <Comment.Group>
+              <Header as="h3" dividing>
+                Messages
+              </Header>
 
-            {hasMessages &&
-              messages.map((msg) => {
-                return (
-                  <Comment
-                    key={msg.id}
-                    className={msg.userId === userId ? 'self' : ''}
-                  >
-                    <Comment.Avatar
-                      src={`https://api.adorable.io/avatars/91/${msg.nickname}@adorable.io.png`}
-                    />
-                    <Comment.Content>
-                      <Comment.Author>{msg.nickname}</Comment.Author>
-                      <Comment.Text>{msg.text}</Comment.Text>
-                    </Comment.Content>
-                  </Comment>
-                )
-              })}
-
-            <Form onSubmit={handleSubmit}>
-              <Form.TextArea
-                value={message}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-              />
-              <Button
-                content="Post message"
-                labelPosition="left"
-                icon="edit"
-                primary
-              />
-            </Form>
-          </Comment.Group>
+              {hasMessages &&
+                messages.map((msg) => {
+                  return (
+                    <Comment
+                      key={msg.id}
+                      className={msg.userId === userId ? 'self' : ''}
+                    >
+                      <Comment.Avatar
+                        src={`https://api.adorable.io/avatars/91/${msg.nickname}@adorable.io.png`}
+                      />
+                      <Comment.Content>
+                        <Comment.Author>{msg.nickname}</Comment.Author>
+                        <Comment.Text>{msg.text}</Comment.Text>
+                      </Comment.Content>
+                    </Comment>
+                  )
+                })}
+            </Comment.Group>
+          </Ref>
+          <Form onSubmit={handleSubmit}>
+            <Form.TextArea
+              value={message}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+            />
+            <Button
+              content="Post message"
+              labelPosition="left"
+              icon="edit"
+              primary
+            />
+          </Form>
         </Grid.Column>
       </Grid>
     </Container>

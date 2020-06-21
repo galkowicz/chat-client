@@ -5,7 +5,13 @@
 }
 
 .comment.self {
+  padding-left: 2rem !important;
   .content .author {
     text-decoration: underline;
   }
+}
+
+.comments {
+  height: 70vh;
+  overflow-y: scroll;
 }
